@@ -9,7 +9,12 @@ I need a simple program, that will find the first 1000 most popular words in a f
 Please compere your results with an index frequency file created by Adam Kilgarriff in a file **all.num** (this file is saved in test resource directory and was downloaded from a page 
 https://www.kilgarriff.co.uk/bnc-readme.html and extracted from a all.num.gz archive file)
 
-Please be accurate and attentive and include all corner cases.
+To create a result for this task please:
+- Clone this repository to your own GitHub repository. - Create feature branch for all changes
+- Create a Pull Request to develop branch which will contain all changes
+- Send me a link to your GitHub repository
+
+Please be accurate and attentive and include all corner cases. Good luck!
 
 ## Technical info
 Project requires:
