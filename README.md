@@ -10,7 +10,8 @@ Please compare your results with an index frequency file created by Adam Kilgarr
 https://www.kilgarriff.co.uk/bnc-readme.html and extracted from a all.num.gz archive file)
 
 To create a result for this task please:
-- Clone this repository to your own GitHub repository. - Create feature branch for all changes
+- Clone this repository to your own GitHub repository. 
+- Create feature branch for all changes
 - Create a Pull Request to develop branch which will contain all changes
 - Send me a link to your GitHub repository
 
