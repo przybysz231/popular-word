@@ -15,13 +15,13 @@ public class PopularWordsTest
     private static final PopularWords testee = new PopularWords();
 
     @Test
-    public void shouldReturnOneThounsendMostPopularWords()
+    public void shouldReturnOneThousandMostPopularWords()
     {
         //given
         List<String> wordsFrequencyListCreatedByAdamKilgarriff = getWordsFrequencyListCreatedByAdamKilgarriff();
 
         //when
-        List<String> result = testee.findOneThousendMostPopularWords();
+        List<String> result = testee.findOneThousandMostPopularWords();
 
         //then
         assertFalse(result.isEmpty());

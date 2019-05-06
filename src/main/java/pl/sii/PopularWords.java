@@ -9,11 +9,11 @@ public class PopularWords
     public static void main( String[] args )
     {
         PopularWords popularWords = new PopularWords();
-        List<String> result = popularWords.findOneThousendMostPopularWords();
+        List<String> result = popularWords.findOneThousandMostPopularWords();
         result.stream().forEach(System.out::println);
     }
 
-    public List<String> findOneThousendMostPopularWords() {
+    public List<String> findOneThousandMostPopularWords() {
         throw new NotImplementedException("TODO implementation");
     }
 }
