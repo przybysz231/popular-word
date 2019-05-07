@@ -4,6 +4,7 @@ import org.apache.commons.lang3.NotImplementedException;
 import org.junit.Test;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
@@ -22,13 +23,13 @@ public class PopularWordsTest {
 
         //then
         assertFalse(result.isEmpty());
-        assertEquals(result.size(), 1000);
+        assertEquals(1000, result.size());
         compareWordListsFrequency(wordsFrequencyListCreatedByAdamKilgarriff, result);
     }
 
     private void compareWordListsFrequency(Map<String, Long> wordsFrequencyListCreatedByAdamKilgarriff, Map<String, Long> result) {
-        Long totalFrequencyByKilgarriff = wordsFrequencyListCreatedByAdamKilgarriff.entrySet().stream().mapToLong(Map.Entry::getValue).reduce(0, (v1, v2) -> v1 + v2);
-        Long totalFrequencyInAResult = result.entrySet().stream().mapToLong(Map.Entry::getValue).reduce(0, (v1, v2) -> v1 + v2);
+        long totalFrequencyByKilgarriff = wordsFrequencyListCreatedByAdamKilgarriff.values().stream().reduce(0L, Long::sum);
+        long totalFrequencyInAResult = result.values().stream().reduce(0L, Long::sum);
         System.out.println("totalFrequencyByKilgarriff = " + totalFrequencyByKilgarriff);
         System.out.println("totalFrequencyInAResult = " + totalFrequencyInAResult);
 
@@ -41,7 +42,7 @@ public class PopularWordsTest {
     }
 
     private BigDecimal calculatePercentage(double obtained, double total) {
-        return new BigDecimal(obtained * 100 / total).setScale(4, BigDecimal.ROUND_UP);
+        return new BigDecimal(obtained * 100 / total).setScale(4, RoundingMode.HALF_UP);
     }
 
     private Map<String, Long> getWordsFrequencyListCreatedByAdamKilgarriff() {
