@@ -28,8 +28,8 @@ public class PopularWordsTest {
     }
 
     private void compareWordListsFrequency(Map<String, Long> wordsFrequencyListCreatedByAdamKilgarriff, Map<String, Long> result) {
-        long totalFrequencyByKilgarriff = wordsFrequencyListCreatedByAdamKilgarriff.values().stream().mapToLong(l -> l).reduce(0, Long::sum);
-        long totalFrequencyInAResult = result.values().stream().mapToLong(l -> l).reduce(0, Long::sum);
+        long totalFrequencyByKilgarriff = wordsFrequencyListCreatedByAdamKilgarriff.values().stream().reduce(0L, Long::sum);
+        long totalFrequencyInAResult = result.values().stream().reduce(0L, Long::sum);
         System.out.println("totalFrequencyByKilgarriff = " + totalFrequencyByKilgarriff);
         System.out.println("totalFrequencyInAResult = " + totalFrequencyInAResult);
 
