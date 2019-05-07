@@ -1,36 +1,50 @@
 package pl.sii;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
-
-import java.util.List;
-
 import org.apache.commons.lang3.NotImplementedException;
 import org.junit.Test;
 
-public class PopularWordsTest 
-{
+import java.math.BigDecimal;
+import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+
+public class PopularWordsTest {
     private static final PopularWords testee = new PopularWords();
 
     @Test
-    public void shouldReturnOneThounsendMostPopularWords()
-    {
+    public void shouldReturnOneThousandMostPopularWords() {
         //given
-        List<String> wordsFrequencyListCreatedByAdamKilgarriff = getWordsFrequencyListCreatedByAdamKilgarriff();
+        Map<String, Long> wordsFrequencyListCreatedByAdamKilgarriff = getWordsFrequencyListCreatedByAdamKilgarriff();
 
         //when
-        List<String> result = testee.findOneThousendMostPopularWords();
+        Map<String, Long> result = testee.findOneThousandMostPopularWords();
 
         //then
         assertFalse(result.isEmpty());
         assertEquals(result.size(), 1000);
-        assertEquals(result.size(), wordsFrequencyListCreatedByAdamKilgarriff.size());
-        assertThat(result, is(wordsFrequencyListCreatedByAdamKilgarriff));
+        compareWordListsFrequency(wordsFrequencyListCreatedByAdamKilgarriff, result);
     }
 
-    private List<String> getWordsFrequencyListCreatedByAdamKilgarriff() {
+    private void compareWordListsFrequency(Map<String, Long> wordsFrequencyListCreatedByAdamKilgarriff, Map<String, Long> result) {
+        Long totalFrequencyByKilgarriff = wordsFrequencyListCreatedByAdamKilgarriff.entrySet().stream().mapToLong(Map.Entry::getValue).reduce(0, (v1, v2) -> v1 + v2);
+        Long totalFrequencyInAResult = result.entrySet().stream().mapToLong(Map.Entry::getValue).reduce(0, (v1, v2) -> v1 + v2);
+        System.out.println("totalFrequencyByKilgarriff = " + totalFrequencyByKilgarriff);
+        System.out.println("totalFrequencyInAResult = " + totalFrequencyInAResult);
+
+        result.forEach((key, value) -> {
+            BigDecimal valueUsagePercentage = calculatePercentage(value, totalFrequencyInAResult);
+            BigDecimal kilgarriffUsagePercentage = calculatePercentage(wordsFrequencyListCreatedByAdamKilgarriff.get(key), totalFrequencyByKilgarriff);
+            BigDecimal diff = kilgarriffUsagePercentage.subtract(valueUsagePercentage);
+            System.out.println(key + "," + valueUsagePercentage + "%," + kilgarriffUsagePercentage + "%," + (new BigDecimal(0.5).compareTo(diff.abs()) > 0) + " " + diff);
+        });
+    }
+
+    private BigDecimal calculatePercentage(double obtained, double total) {
+        return new BigDecimal(obtained * 100 / total).setScale(4, BigDecimal.ROUND_UP);
+    }
+
+    private Map<String, Long> getWordsFrequencyListCreatedByAdamKilgarriff() {
         throw new NotImplementedException("TODO implementation");
     }
 }
