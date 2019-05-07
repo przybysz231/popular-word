@@ -19,5 +19,5 @@ Please be accurate and attentive and include all corner cases. Good luck!
 
 ## Technical info
 Project requires:
-- Java SE 11 
+- Java SE 12
 - Maven at least v3.5.0
