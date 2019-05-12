@@ -1,10 +1,14 @@
 package pl.sii;
 
-import org.apache.commons.lang3.NotImplementedException;
+
 import org.junit.Test;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
@@ -32,13 +36,17 @@ public class PopularWordsTest {
         long totalFrequencyInAResult = result.values().stream().reduce(0L, Long::sum);
         System.out.println("totalFrequencyByKilgarriff = " + totalFrequencyByKilgarriff);
         System.out.println("totalFrequencyInAResult = " + totalFrequencyInAResult);
-
         result.forEach((key, value) -> {
             BigDecimal valueUsagePercentage = calculatePercentage(value, totalFrequencyInAResult);
-            BigDecimal kilgarriffUsagePercentage = calculatePercentage(wordsFrequencyListCreatedByAdamKilgarriff.get(key), totalFrequencyByKilgarriff);
-            BigDecimal diff = kilgarriffUsagePercentage.subtract(valueUsagePercentage);
-            System.out.println(key + "," + valueUsagePercentage + "%," + kilgarriffUsagePercentage + "%," + (new BigDecimal(0.5).compareTo(diff.abs()) > 0) + " " + diff);
+            if (wordsFrequencyListCreatedByAdamKilgarriff.containsKey(key)) {
+                BigDecimal kilgarriffUsagePercentage = calculatePercentage(wordsFrequencyListCreatedByAdamKilgarriff.get(key), totalFrequencyByKilgarriff);
+                BigDecimal diff = kilgarriffUsagePercentage.subtract(valueUsagePercentage);
+                System.out.println(key + "," + valueUsagePercentage + "%," + kilgarriffUsagePercentage + "%," + (new BigDecimal(0.5).compareTo(diff.abs()) > 0) + " " + diff);
+            } else {
+                System.out.println(key + "," + valueUsagePercentage+ "%," + " doesn't exist! cannot compare");
+            }
         });
+
     }
 
     private BigDecimal calculatePercentage(double obtained, double total) {
@@ -46,6 +54,17 @@ public class PopularWordsTest {
     }
 
     private Map<String, Long> getWordsFrequencyListCreatedByAdamKilgarriff() {
-        throw new NotImplementedException("TODO implementation");
+        Map<String, Long> wordsFreqMap = new HashMap<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader("src/test/resources/all.num"))) {
+            reader.readLine();
+            String line1 = null;
+            while ((line1 = reader.readLine()) != null) {
+                String[] freq = line1.trim().split(" ");
+                wordsFreqMap.put(freq[1], Long.valueOf(freq[0]));
+            }
+        } catch (IOException e) {
+            System.out.println("reading from file error");
+        }
+        return wordsFreqMap;
     }
 }
